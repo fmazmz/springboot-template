@@ -4,13 +4,10 @@ import com.example.template.model.EntityDto;
 import com.example.template.service.EntityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpTimeoutException;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping(path = "api/v1/entities")
@@ -18,11 +15,19 @@ import java.util.UUID;
 public class EntityController {
 
     private final EntityService entityService;
+    public static final String JSON_CONSUME = "application/json";
+    public static final String JSON_PRODUCE = "application/json";
 
 
-    @GetMapping
+    @GetMapping(produces = JSON_PRODUCE)
     public ResponseEntity<EntityDto> findById(@RequestParam UUID id){
         return ResponseEntity.of(entityService.findById(id));
+    }
+
+    @PostMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
+    public ResponseEntity<EntityDto> create(@RequestBody EntityDto dto){
+        entityService.create(dto);
+        return ResponseEntity.status(201).build();
     }
 
 }
