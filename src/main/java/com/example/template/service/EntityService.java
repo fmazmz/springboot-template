@@ -27,14 +27,20 @@ public class EntityService {
     }
 
     @Transactional
-    public void create(EntityDto entityDto) {
+    public EntityDto create(EntityDto entityDto) {
         EntityClass entityClass = EntityClass.builder()
                 .name(entityDto.name())
                 .description(entityDto.description())
                 .createdAt(entityDto.createdAt())
                 .build();
 
-        entityRepo.save(entityClass);
+        EntityClass savedEntity = entityRepo.save(entityClass);
+        return EntityDto.builder()
+                .id(savedEntity.getId())
+                .name(savedEntity.getName())
+                .description(savedEntity.getDescription())
+                .createdAt(savedEntity.getCreatedAt())
+                .build();
     }
 
     @Transactional
