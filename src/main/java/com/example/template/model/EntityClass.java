@@ -11,7 +11,6 @@ import lombok.*;
 import java.util.Date;
 import java.util.UUID;
 
-
 @Entity
 @Table(name = "entity_table")
 @Getter
@@ -21,14 +20,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EntityClass {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    @Column
-    private String name;
-    @Column
-    private String description;
-    @Column
-    private Date createdAt;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
+	private String name;
+	private String description;
 
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 }
